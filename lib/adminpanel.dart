@@ -45,16 +45,31 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
               DataCell(Text(document['Phone Number'] ?? '')),
               DataCell(Text(document['Aadhar Number'] ?? '')),
               DataCell(
-                 Text("Adhar Photo", style: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                        decoration: TextDecoration.underline,
+                Center(
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.blue), // Example border
+                      borderRadius:
+                          BorderRadius.circular(10), // Example border radius
+                    ),
+                    child: const Text(
+                      "View",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
                         color: Colors.blue,
                       ),
+                    ),
+                  ),
                 ),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return AdhaarView(image: document["Aadhar Photo"]??"",);
-                  },));
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return AdhaarView(
+                        image: document["Aadhar Photo"] ?? "",
+                      );
+                    },
+                  ));
                 },
               ),
               DataCell(Text(document['Service Type'] ?? '')),
@@ -63,7 +78,6 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
               DataCell(Text(document['Insurance No'] ?? '')),
               DataCell(Text(document['License No'] ?? '')),
               DataCell(Text(document['Min Price'] ?? '')),
-              
             ]);
           }).toList();
 

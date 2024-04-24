@@ -74,7 +74,12 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
               ),
               DataCell(Text(document['Service Type'] ?? '')),
               DataCell(Text(document['Company Name'] ?? '')),
-              DataCell(Text(document['Experience'] ?? '')),
+              DataCell(
+                Text(
+                  '${document['Experience'] ?? ''} years',
+                  style: const TextStyle(fontWeight: FontWeight.normal),
+                ),
+              ),
               DataCell(Text(document['Insurance No'] ?? '')),
               DataCell(Text(document['License No'] ?? '')),
               DataCell(Text(document['Min Price'] ?? '')),

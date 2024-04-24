@@ -1,3 +1,4 @@
+import 'package:autorescue_admin/Colors/appcolors.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,7 +28,7 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
         backgroundColor: Colors.black,
         actions: [
           IconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back,color: AppColors.appPrimary,),
             onPressed: () {
               _scrollController.animateTo(
                 _scrollController.offset - MediaQuery.of(context).size.width,
@@ -37,7 +38,7 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.arrow_forward),
+            icon: const Icon(Icons.arrow_forward,color: AppColors.appPrimary,),
             onPressed: () {
               _scrollController.animateTo(
                 _scrollController.offset + MediaQuery.of(context).size.width,
@@ -52,10 +53,14 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
         controller: _scrollController,
         scrollDirection: Axis.horizontal,
         child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('PROVIDERS').snapshots(),
+          stream:
+              FirebaseFirestore.instance.collection('PROVIDERS').snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator(color: Colors.white,));
+              return const Center(
+                  child: CircularProgressIndicator(
+                color: Colors.white,
+              ));
             }
             if (!snapshot.hasData) {
               return const Center(child: Text('No data available'));
@@ -95,33 +100,41 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
                         return StatefulBuilder(
                           builder: (BuildContext context, setState) {
                             return AlertDialog(
-                              content: SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.5,
-                                height: MediaQuery.of(context).size.height * 0.5,
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: NetworkImage(document["Aadhar Photo"] ?? ""),
-                                          fit: BoxFit.contain,
-                                        ),
-                                      ),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'Service Provider : ${document['Fullname'] ?? ''}',
+                                    style:  TextStyle(
+                                      color: Colors.black,
+                                      fontFamily: GoogleFonts.ubuntu().fontFamily,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    Positioned(
-                                      bottom: 1,
-                                      child: Text(
-                                        document['Fullname'] ?? '',
-                                        style: const TextStyle(
-                                          color: Colors.white70,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
+                                  ),
+                                  const SizedBox(height: 7,),
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.5,
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                  document["Aadhar Photo"] ??
+                                                      ""),
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             );
                           },
@@ -146,23 +159,52 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
 
             return DataTable(
               columns: const [
-                DataColumn(label: Text('Pending', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Accepted', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Rejected', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Full Name', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Email', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Phone Number', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Aadhar Number', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Aadhar Photo', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Service Type', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Company Name', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Experience', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Insurance No', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('License No', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Min Price', style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(
+                    label: Text('Pending',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(
+                    label: Text('Accepted',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(
+                    label: Text('Rejected',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(
+                    label: Text('Full Name',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(
+                    label: Text('Email',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(
+                    label: Text('Phone Number',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(
+                    label: Text('Aadhar Number',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(
+                    label: Text('Aadhar Photo',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(
+                    label: Text('Service Type',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(
+                    label: Text('Company Name',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(
+                    label: Text('Experience',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(
+                    label: Text('Insurance No',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(
+                    label: Text('License No',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(
+                    label: Text('Min Price',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
               ],
               rows: rows,
-              dataRowColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+              dataRowColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
                 return Colors.white;
               }),
               dataRowHeight: 60.0,
@@ -174,7 +216,8 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
                 color: Colors.grey,
                 width: 1.0,
               ),
-              headingRowColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+              headingRowColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
                 return Colors.black87;
               }),
               headingTextStyle: TextStyle(
@@ -205,10 +248,12 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
     return ElevatedButton(
       child: Text(
         status,
-        style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        style:
+            const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
       ),
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(color ?? Colors.white),
+        backgroundColor:
+            MaterialStateProperty.all<Color>(color ?? Colors.white),
       ),
       onPressed: () {
         FirebaseFirestore.instance

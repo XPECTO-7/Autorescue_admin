@@ -55,7 +55,7 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
           stream: FirebaseFirestore.instance.collection('PROVIDERS').snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator(color: Colors.white,));
             }
             if (!snapshot.hasData) {
               return const Center(child: Text('No data available'));

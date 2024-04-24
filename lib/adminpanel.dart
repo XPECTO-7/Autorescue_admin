@@ -1,4 +1,3 @@
-import 'package:autorescue_admin/adharView.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,7 +16,7 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Admin Panel',
+          'Service Provider Verification',
           style: TextStyle(
             fontSize: 20,
             fontFamily: GoogleFonts.ubuntu().fontFamily,
@@ -26,142 +25,166 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
           ),
         ),
         backgroundColor: Colors.black,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              _scrollController.animateTo(
+                _scrollController.offset - MediaQuery.of(context).size.width,
+                curve: Curves.easeOut,
+                duration: const Duration(milliseconds: 300),
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.arrow_forward),
+            onPressed: () {
+              _scrollController.animateTo(
+                _scrollController.offset + MediaQuery.of(context).size.width,
+                curve: Curves.easeOut,
+                duration: const Duration(milliseconds: 300),
+              );
+            },
+          ),
+        ],
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('PROVIDERS').snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          List<DataRow> rows =
-              snapshot.data!.docs.map((DocumentSnapshot document) {
-            approvalStatus[document.id] = document['Approved'] ?? 'Pending';
-            return DataRow(cells: [
-              DataCell(_buildButton(document, 'Pending')),
-              DataCell(_buildButton(document, 'Accepted')),
-              DataCell(_buildButton(document, 'Rejected')),
-              DataCell(Text(document['Fullname'] ?? '')),
-              DataCell(Text(document['Email'] ?? '')),
-              DataCell(Text(document['Phone Number'] ?? '')),
-              DataCell(Text(document['Aadhar Number'] ?? '')),
-              DataCell(
-                Center(
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.blue), // Example border
-                      borderRadius:
-                          BorderRadius.circular(10), // Example border radius
-                    ),
-                    child: const Text(
-                      "View",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue,
+      body: SingleChildScrollView(
+        controller: _scrollController,
+        scrollDirection: Axis.horizontal,
+        child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance.collection('PROVIDERS').snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (!snapshot.hasData) {
+              return const Center(child: Text('No data available'));
+            }
+            List<DataRow> rows =
+                snapshot.data!.docs.map((DocumentSnapshot document) {
+              approvalStatus[document.id] = document['Approved'] ?? 'Pending';
+              return DataRow(cells: [
+                DataCell(_buildButton(document, 'Pending')),
+                DataCell(_buildButton(document, 'Accepted')),
+                DataCell(_buildButton(document, 'Rejected')),
+                DataCell(Text(document['Fullname'] ?? '')),
+                DataCell(Text(document['Email'] ?? '')),
+                DataCell(Text(document['Phone Number'] ?? '')),
+                DataCell(Text(document['Aadhar Number'] ?? '')),
+                DataCell(
+                  Center(
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.blue),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Text(
+                        "View",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue,
+                        ),
                       ),
                     ),
                   ),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return StatefulBuilder(
+                          builder: (BuildContext context, setState) {
+                            return AlertDialog(
+                              content: SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.5,
+                                height: MediaQuery.of(context).size.height * 0.5,
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(document["Aadhar Photo"] ?? ""),
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      bottom: 1,
+                                      child: Text(
+                                        document['Fullname'] ?? '',
+                                        style: const TextStyle(
+                                          color: Colors.white70,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
                 ),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) {
-                      return AdhaarView(
-                        image: document["Aadhar Photo"] ?? "",
-                      );
-                    },
-                  ));
-                },
-              ),
-              DataCell(Text(document['Service Type'] ?? '')),
-              DataCell(Text(document['Company Name'] ?? '')),
-              DataCell(
-                Text(
-                  '${document['Experience'] ?? ''} years',
-                  style: const TextStyle(fontWeight: FontWeight.normal),
+                DataCell(Text(document['Service Type'] ?? '')),
+                DataCell(Text(document['Company Name'] ?? '')),
+                DataCell(
+                  Text(
+                    '${document['Experience'] ?? ''} years',
+                    style: const TextStyle(fontWeight: FontWeight.normal),
+                  ),
                 ),
-              ),
-              DataCell(Text(document['Insurance No'] ?? '')),
-              DataCell(Text(document['License No'] ?? '')),
-              DataCell(Text(document['Min Price'] ?? '')),
-            ]);
-          }).toList();
+                DataCell(Text(document['Insurance No'] ?? '')),
+                DataCell(Text(document['License No'] ?? '')),
+                DataCell(Text(document['Min Price'] ?? '')),
+              ]);
+            }).toList();
 
-          return SingleChildScrollView(
-            controller: _scrollController, // Use the scroll controller here
-            scrollDirection: Axis.horizontal,
-            child: DataTable(
+            return DataTable(
               columns: const [
-                DataColumn(
-                    label: Text('Pending',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('Accepted',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('Rejected',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('Full Name',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('Email',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('Phone Number',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('Aadhar Number',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('Aadhar Photo',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('Service Type',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('Company Name',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('Experience',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('Insurance No',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('License No',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('Min Price',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                // Added column for Aadhar Photo
-                // Add more DataColumn widgets for additional headings
+                DataColumn(label: Text('Pending', style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(label: Text('Accepted', style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(label: Text('Rejected', style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(label: Text('Full Name', style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(label: Text('Email', style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(label: Text('Phone Number', style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(label: Text('Aadhar Number', style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(label: Text('Aadhar Photo', style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(label: Text('Service Type', style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(label: Text('Company Name', style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(label: Text('Experience', style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(label: Text('Insurance No', style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(label: Text('License No', style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(label: Text('Min Price', style: TextStyle(fontWeight: FontWeight.bold))),
               ],
               rows: rows,
-              dataRowColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                return Colors.white; // Use any color for the data row
+              dataRowColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+                return Colors.white;
               }),
-              dataRowHeight: 60.0, // Adjust the row height as needed
+              dataRowHeight: 60.0,
               dataTextStyle: TextStyle(
                 fontFamily: GoogleFonts.ubuntu().fontFamily,
-                color: Colors.black87, // Use any text color for the data
+                color: Colors.black87,
               ),
               border: TableBorder.all(
-                color: Colors.grey, // Use any border color
-                width: 1.0, // Adjust the border width as needed
+                color: Colors.grey,
+                width: 1.0,
               ),
-              headingRowColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                return Colors.black87; // Use any color for the heading row
+              headingRowColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+                return Colors.black87;
               }),
               headingTextStyle: TextStyle(
                 fontFamily: GoogleFonts.ubuntu().fontFamily,
-                color: Colors.white, // Use any text color for the heading text
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
@@ -182,12 +205,10 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
     return ElevatedButton(
       child: Text(
         status,
-        style:
-            const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
       ),
       style: ButtonStyle(
-        backgroundColor:
-            MaterialStateProperty.all<Color>(color ?? Colors.white),
+        backgroundColor: MaterialStateProperty.all<Color>(color ?? Colors.white),
       ),
       onPressed: () {
         FirebaseFirestore.instance

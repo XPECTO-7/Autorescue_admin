@@ -28,7 +28,10 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
         backgroundColor: Colors.black,
         actions: [
           IconButton(
-            icon: const Icon(Icons.arrow_back,color: AppColors.appPrimary,),
+            icon: const Icon(
+              Icons.arrow_back,
+              color: AppColors.appPrimary,
+            ),
             onPressed: () {
               _scrollController.animateTo(
                 _scrollController.offset - MediaQuery.of(context).size.width,
@@ -38,7 +41,10 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.arrow_forward,color: AppColors.appPrimary,),
+            icon: const Icon(
+              Icons.arrow_forward,
+              color: AppColors.appPrimary,
+            ),
             onPressed: () {
               _scrollController.animateTo(
                 _scrollController.offset + MediaQuery.of(context).size.width,
@@ -105,14 +111,17 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
                                 children: [
                                   Text(
                                     'Service Provider : ${document['Fullname'] ?? ''}',
-                                    style:  TextStyle(
+                                    style: TextStyle(
                                       color: Colors.black,
-                                      fontFamily: GoogleFonts.ubuntu().fontFamily,
+                                      fontFamily:
+                                          GoogleFonts.ubuntu().fontFamily,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  const SizedBox(height: 7,),
+                                  const SizedBox(
+                                    height: 7,
+                                  ),
                                   SizedBox(
                                     width:
                                         MediaQuery.of(context).size.width * 0.5,
@@ -160,47 +169,120 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
             return DataTable(
               columns: const [
                 DataColumn(
-                    label: Text('Pending',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
+                  label: Center(
+                    child: Text(
+                      'Verifying',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.yellow),
+                    ),
+                  ),
+                ),
                 DataColumn(
-                    label: Text('Accepted',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
+                  label: Center(
+                    child: Text(
+                      'Approved',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.green),
+                    ),
+                  ),
+                ),
                 DataColumn(
-                    label: Text('Rejected',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
+                  label: Center(
+                    child: Text(
+                      'Issues',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.red),
+                    ),
+                  ),
+                ),
                 DataColumn(
-                    label: Text('Full Name',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
+                  label: Center(
+                    child: Text(
+                      'Full Name',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
                 DataColumn(
-                    label: Text('Email',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
+                  label: Center(
+                    child: Text(
+                      'Email',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
                 DataColumn(
-                    label: Text('Phone Number',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
+                  label: Center(
+                    child: Text(
+                      'Phone Number',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
                 DataColumn(
-                    label: Text('Aadhar Number',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
+                  label: Center(
+                    child: Text(
+                      'Aadhar Number',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
                 DataColumn(
-                    label: Text('Aadhar Photo',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
+                  label: Center(
+                    child: Text(
+                      'Aadhar Photo',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
                 DataColumn(
-                    label: Text('Service Type',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
+                  label: Center(
+                    child: Text(
+                      'Service Type',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
                 DataColumn(
-                    label: Text('Company Name',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
+                  label: Center(
+                    child: Text(
+                      'Company Name',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
                 DataColumn(
-                    label: Text('Experience',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
+                  label: Center(
+                    child: Text(
+                      'Experience',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
                 DataColumn(
-                    label: Text('Insurance No',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
+                  label: Center(
+                    child: Text(
+                      'Insurance No',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
                 DataColumn(
-                    label: Text('License No',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
+                  label: Center(
+                    child: Text(
+                      'License No',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
                 DataColumn(
-                    label: Text('Min Price',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
+                  label: Center(
+                    child: Text(
+                      'Min Price',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
               ],
               rows: rows,
               dataRowColor: MaterialStateProperty.resolveWith<Color>(

@@ -78,10 +78,14 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
                 DataCell(_buildButton(document, 'Pending')),
                 DataCell(_buildButton(document, 'Accepted')),
                 DataCell(_buildButton(document, 'Rejected')),
-                DataCell(Text(document['Fullname'] ?? '')),
-                DataCell(Text(document['Email'] ?? '')),
-                DataCell(Text(document['Phone Number'] ?? '')),
-                DataCell(Text(document['Aadhar Number'] ?? '')),
+                DataCell(Text(document['Fullname'] ?? '',
+                    style: const TextStyle(fontWeight: FontWeight.bold))),
+                DataCell(Text(document['Email'] ?? '',
+                    style: const TextStyle(fontWeight: FontWeight.bold))),
+                DataCell(Text(document['Phone Number'] ?? '',
+                    style: const TextStyle(fontWeight: FontWeight.bold))),
+                DataCell(Text(document['Aadhar Number'] ?? '',
+                    style: const TextStyle(fontWeight: FontWeight.bold))),
                 DataCell(
                   Center(
                     child: Container(
@@ -152,17 +156,22 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
                     );
                   },
                 ),
-                DataCell(Text(document['Service Type'] ?? '')),
-                DataCell(Text(document['Company Name'] ?? '')),
+                DataCell(Text(document['Service Type'] ?? '',
+                    style: const TextStyle(fontWeight: FontWeight.bold))),
+                DataCell(Text(document['Company Name'] ?? '',
+                    style: const TextStyle(fontWeight: FontWeight.bold))),
                 DataCell(
                   Text(
                     '${document['Experience'] ?? ''} years',
-                    style: const TextStyle(fontWeight: FontWeight.normal),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
-                DataCell(Text(document['Insurance No'] ?? '')),
-                DataCell(Text(document['License No'] ?? '')),
-                DataCell(Text(document['Min Price'] ?? '')),
+                DataCell(Text(document['Insurance No'] ?? '',
+                    style: const TextStyle(fontWeight: FontWeight.bold))),
+                DataCell(Text(document['License No'] ?? '',
+                    style: const TextStyle(fontWeight: FontWeight.bold))),
+                DataCell(Text(document['Min Price'] ?? '',
+                    style: const TextStyle(fontWeight: FontWeight.bold))),
               ]);
             }).toList();
 
@@ -171,7 +180,7 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
                 DataColumn(
                   label: Center(
                     child: Text(
-                      'Verifying',
+                      'Verification ongoing',
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.yellow),
                     ),
@@ -180,7 +189,7 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
                 DataColumn(
                   label: Center(
                     child: Text(
-                      'Approved',
+                      'Approved Service',
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.green),
                     ),
@@ -189,7 +198,7 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
                 DataColumn(
                   label: Center(
                     child: Text(
-                      'Issues',
+                      'Issues noticed',
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.red),
                     ),

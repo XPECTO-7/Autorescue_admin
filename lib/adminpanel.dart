@@ -198,7 +198,7 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
                 DataColumn(
                   label: Center(
                     child: Text(
-                      'Issues noticed',
+                      'Issues detected',
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.red),
                     ),

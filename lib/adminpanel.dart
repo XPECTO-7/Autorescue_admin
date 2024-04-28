@@ -60,8 +60,10 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
         scrollDirection: Axis.horizontal,
         child: SingleChildScrollView(
           child: StreamBuilder<QuerySnapshot>(
-            stream:
-                FirebaseFirestore.instance.collection('PROVIDERS').snapshots(),
+            stream: FirebaseFirestore.instance
+                .collection('PROVIDERS')
+                .orderBy('Regtime', descending: true)
+                .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -128,10 +130,11 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
                                       height: 7,
                                     ),
                                     SizedBox(
-                                      width:
-                                          MediaQuery.of(context).size.width * 0.5,
-                                      height: MediaQuery.of(context).size.height *
+                                      width: MediaQuery.of(context).size.width *
                                           0.5,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.5,
                                       child: Stack(
                                         alignment: Alignment.center,
                                         children: [
@@ -175,7 +178,7 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
                       style: const TextStyle(fontWeight: FontWeight.bold))),
                 ]);
               }).toList();
-          
+
               return DataTable(
                 columns: const [
                   DataColumn(
